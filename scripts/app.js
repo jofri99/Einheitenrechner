@@ -27,7 +27,8 @@ window.addEventListener("load",function(){
         el.value = opt;
         el.onclick = selectCategory(i);
         select.appendChild(el);
-    }var
+    }
+    updateUnitDropdowns(currentCategory);
 });
 
 
@@ -62,7 +63,6 @@ function updateUnitDropdowns(category){
 
 //Set category and update dp button text
 function selectCategory(cat){
-    console.log(cat.value);
     switch(cat.value){
         case "Länge": 
             currentCategory=LENGTH;
