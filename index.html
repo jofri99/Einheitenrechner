@@ -1,25 +1,47 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-    <link rel="stylesheet" type="text/css" href="style/app.css">
-</head>
-
-<body>
-    <h1>Unit Converter</h1>
-    <select id="sltCategory" class="dropdown" onchange="selectCategory(this)"> </select>
-    <br><br>
+<html lang="de">
     
-    <input id="val1" type="number" />
-    <input id="val2" type="number" />
-    <br><br>
-    <select id="sltUnit1" class = "dropdown"></select>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="theme-color" content="#2F3BA2" />
+        <link rel="manifest" href="./manifest.json">
+        <link rel="stylesheet" type="text/css" href="style/app.css">
+        <title>Einheitenrechner</title>
+    </head>
 
-    <select id="sltUnit2" class = "dropdown"></select>
-    
-    <br><br>
-    <button>Berechnen</button>
-    <script src="scripts/app.js"></script>
-</body>
+    <body>
+       
+        <div class="content">
+            <h1>Unit Converter</h1>
+            <div class="wrapper">
+                <label for="sltCategory" >Select category</label>
+                <br>
+                <select id="sltCategory" class="dropdown" onchange="selectCategory(this)" tabindex="0"></select>
+            </div>
+            <br><br>
+            <div class="wrapper">
+                <div>
+                        <label for="sltUnit1" class="l1">Select Unit1</label>
+                        <br>
+                        <input title="value1" id="val1" type="number" oninput="selectCalc(this)" tabindex="0">
+                        <br>
+                        <select id="sltUnit1" class="dropdown" onchange="selectCalc()" tabindex="0"></select>
+                </div>
+
+                <div>
+                    
+                    <label for="sltUnit2" class="l1">Select Unit2</label>
+                    <br>
+                    <input title="value2" id="val2" type="number" oninput="selectCalc(this)" tabindex="0">
+                    <br>
+                    <select id="sltUnit2" class="dropdown" onchange="selectCalc()" tabindex="0"></select>
+                </div>
+            </div>
+            
+            <br><br>
+        </div>
+        <script src="scripts/app.js"></script>
+        <script src="scripts/register-sw.js"></script>
+    </body>
 
 </html>
