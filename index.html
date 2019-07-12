@@ -2,6 +2,13 @@
 <html lang="de">
     
     <head>
+        <!--IOS-->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="Weather PWA">
+        <link rel="apple-touch-icon" href="icons/pencil152.png">
+
+        <meta name="description" content="A simple unit calc">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="theme-color" content="#2F3BA2" />
         <link rel="manifest" href="./manifest.json">
@@ -19,29 +26,27 @@
                 <select id="sltCategory" class="dropdown" onchange="selectCategory(this)" tabindex="0"></select>
             </div>
             <br><br>
-            <div class="wrapper">
+            
                 <div>
                         <label for="sltUnit1" class="l1">Select Unit1</label>
                         <br>
-                        <input title="value1" id="val1" type="number" oninput="selectCalc(this)" tabindex="0">
+                        <input title="value1" id="val1" type="text" oninput="selectCalc(this)" tabindex="0">
                         <br>
-                        <select id="sltUnit1" class="dropdown" onchange="selectCalc()" tabindex="0"></select>
+                        <select id="sltUnit1" class="dropdown" onchange="selectCalc(2)" tabindex="0"></select>
                 </div>
 
-                <div>
+                
                     
                     <label for="sltUnit2" class="l1">Select Unit2</label>
                     <br>
-                    <input title="value2" id="val2" type="number" oninput="selectCalc(this)" tabindex="0">
+                    <input title="value2" id="val2" type="text" oninput="selectCalc(this)" tabindex="0">
                     <br>
-                    <select id="sltUnit2" class="dropdown" onchange="selectCalc()" tabindex="0"></select>
+                    <select id="sltUnit2" class="dropdown" onchange="selectCalc(1)" tabindex="0"></select>
                 </div>
             </div>
-            
-            <br><br>
         </div>
-        <script src="scripts/app.js"></script>
-        <script src="scripts/register-sw.js"></script>
+        <script src="register-sw.js"></script>
+        <script src="app.js"></script>
     </body>
 
 </html>

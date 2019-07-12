@@ -8,9 +8,10 @@ var categorys = ["Länge", "Gewicht", "Energie", "Datengröße"];
 
 
 
-//execute while loading page
-//Select length as default category and load length units in dropdown menus
-window.addEventListener("load", function () {
+
+//get exectued when page get loaded
+//default settings get loaded
+window.addEventListener("load", () => {
     var select = document.getElementById("sltCategory");
     for (let i = 0; i < categorys.length; i++) {
         let opt = categorys[i];
@@ -26,16 +27,21 @@ window.addEventListener("load", function () {
 
   
 
-async function registerSW() {
-    if('serviceWorker' in navigator){
-        try{
-            await navigator.serviceWorker.register('scripts/serviceworker.js');
-        }catch(e){
-            console.log('SW registration failed: '+e);
-        }
-    }
-}
+//all units seperatet in an array
+var units = [
+    ["Meter", "Zentimeter", "Fuß", "Zoll", "Meile"],
+    ["Gramm", "Kilogramm", "Tonne", "Pfund", "Unze"],
+    ["Joule", "Wattstunde", "Kalorie", "Elektronenvolt", "Kilowattstunde"],
+    ["Byte", "Kilobyte", "Gigabyte", "Terabyte", "Bit"]
+];
 
+//the factors in an array
+var factorLength = new Array(0.01,0.304785126,0.025400051,1609.344);
+var factorWeight = new Array(1000,1000000,453.592,28.3495);
+var factorEnergy = new Array(3600, 4.184, (1/6.242e+18),3.6e+6);
+var factorDataSize = new Array(1000, 1e+9, 1e+12, (1/8));
+
+//When a new category get selected the units get updatet
 function updateUnitDropdowns(category) {
     var select = document.getElementById("sltUnit1");
 
@@ -64,6 +70,7 @@ function updateUnitDropdowns(category) {
 
 //Set category and update dp button text
 function selectCategory(cat) {
+    console.log("SelectCategory")
     switch (cat.value) {
         case "Länge":
             currentCategory = LENGTH;
@@ -88,19 +95,14 @@ function selectCategory(cat) {
 
 }
 
-var units = [
-    ["Meter", "Zentimeter", "Fuß", "Zoll", "Meile"],
-    ["Gramm", "Kilogramm", "Tonne", "Pfund", "Unze"],
-    ["Joule", "Wattstunde", "Kalorie", "Elektronenvolt", "Kilowattstunde"],
-    ["Byte", "Kilobyte", "Gigabyte", "Terabyte", "Bit"]
-];
 
-var factorLength = new Array(0.01,0.304785126,0.025400051,1609.344);
-var factorWeight = new Array(1000,1000000,453.592,28.3495);
-var factorEnergy = new Array(3600, 4.184, (1/6.242e+18),3.6e+6);
-var factorDataSize = new Array(1000, 1e+9, 1e+12, (1/8));
-
+//which unit need to be converted 
 function selectCalc(input) {
+    if(input == 1){
+        input =  document.getElementById("val1");
+    }else if(input == 2){
+        input = document.getElementById("val2");
+    }
     var slt = document.getElementById("sltCategory");
     var cat = slt.options[slt.selectedIndex].value;
     switch(cat){
@@ -123,7 +125,7 @@ function selectCalc(input) {
 }
 
 
-
+//the new value get calculated
 function calc(units,factor,input){
     var slt = document.getElementById("sltUnit1");
     
@@ -134,8 +136,6 @@ function calc(units,factor,input){
     var val2 = slt.options[slt.selectedIndex].value;
 
     var givenField,val;
-    
-    console.log(input.id);
 
     if(input.id == "val1"){
         val=document.getElementById("val1").value;       
@@ -147,7 +147,38 @@ function calc(units,factor,input){
         val1 = valTemp;
         givenField=2;
     }
+    var allowed = [1,2,3,4,5,6,7,8,9,0,",","."];
+    var check = false;
+    for(let i = 0;i<allowed.length;i++){
+        if(input.value[input.value.length-1]==allowed[i]){
+            check=true;
+        }
+    }
+
+    var saveChar = input.value[input.value.length-1];
+    input.value = input.value.substring(0,input.value.length-1);
+    console.log();
+    if(saveChar=="."&&input.value.indexOf(".")!=-1){
+        check=false;
+    }
+    input.value = input.value+saveChar;
     
+
+    if(!check){
+        let newStr = input.value.substring(0,input.value.length-1);
+        input.value = newStr;
+    }
+
+    if(input.value[input.value.length-1])
+
+
+    if(input.value[input.value.length-1]==","){
+            
+        var arr = input.value;
+        var res = arr.replace(",",".");
+        input.value = res;
+        
+    }
     
     switch(val1){
         case units[0]:
@@ -187,9 +218,13 @@ function calc(units,factor,input){
 
     if(givenField==1){
         var doc = document.getElementById("val2");
-        doc.value=val;
+        val = String(val);
+        val = val.replace(",",".");
+        if(check){doc.value=val;}
     }else{
         var doc = document.getElementById("val1");
-        doc.value=val;
+        val = String(val);
+        val = val.replace(",",".");
+        if(check){doc.value=val;}
     }
 }
